@@ -1,0 +1,13 @@
+Pasos para la instalación:
+
+1.- Descomprimir el fichero ZIP
+2.- Crear una base de datos en PHPMyAdmin u otro gestor
+3.- Importar el fichero "Gesnet.sql" en la base de datos que se desea trabajar. Sin embargo, en archivo se encuentra en la carpeta "bd/Gesnet.sql"
+4.- Editar el Fichero "model/Conexion.php", en este archivo se tiene que colocar las credenciales de MySQL.
+5.- Usuario: admin Contraseña: 12345
+
+Es todo y a disfrutar del Script.
+
+Usuario:admin
+Password:12345
+
