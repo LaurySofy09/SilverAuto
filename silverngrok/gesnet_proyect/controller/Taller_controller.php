@@ -69,10 +69,10 @@
 		}
 
 		public static function Insertar_Diagnostico($idorden,$diagnostico,$estado_aparato,$repuestos,$mano_obra,$fecha_alta,$fecha_retiro,
-		$ubicacion,$parcial_pagar){
+		$ubicacion,$parcial_pagar, $HoraObra){
 
 		$cmd = TallerModel::Insertar_Diagnostico($idorden,$diagnostico,$estado_aparato,$repuestos,$mano_obra,$fecha_alta,$fecha_retiro,
-		$ubicacion,$parcial_pagar);
+		$ubicacion,$parcial_pagar, $HoraObra);
 
 		}
 
