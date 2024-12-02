@@ -38,7 +38,7 @@ if (!empty($_POST))
 				$iddetalle  =  $_POST['iddetalle'];
 				$idproducto  =  $_POST['idproducto'];
 				$cantidad  =  $_POST['cantidad'];
-				echo $funcion->ConsultarDetalle_OrdenTaller($iddetalle, $idproducto, $cantidad); 
+				echo $funcion->EliminarDetalleOrden($iddetalle, $idproducto, $cantidad); 
 			break;
 			
 			case 'Informacion':
@@ -106,14 +106,15 @@ if (!empty($_POST))
 				$fecha_retiro = $_POST['fecha_retiro'];
 				$ubicacion  =  $_POST['ubicacion'];
 				$parcial_pagar =  $_POST['parcial'];
+				$HoraObra =  $_POST['HoraObra'];
 				$fecha_alta = DateTime::createFromFormat('d/m/Y H:i:s',$fecha_alta)->format('Y-m-d H:i:s');
 				if($fecha_retiro == ''){
 					$funcion->Insertar_Diagnostico($idorden,$diagnostico,$estado_aparato,$repuestos,$mano_obra,$fecha_alta,NULL,
-		    		$ubicacion,$parcial_pagar);
+		    		$ubicacion,$parcial_pagar, $HoraObra);
 				} else {
 					$fecha_retiro = DateTime::createFromFormat('d/m/Y H:i:s',$fecha_retiro)->format('Y-m-d H:i:s');
 					$funcion->Insertar_Diagnostico($idorden,$diagnostico,$estado_aparato,$repuestos,$mano_obra,$fecha_alta,$fecha_retiro,
-		    		$ubicacion,$parcial_pagar);
+		    		$ubicacion,$parcial_pagar, $HoraObra);
 				}
 
 			break;
