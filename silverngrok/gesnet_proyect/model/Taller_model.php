@@ -286,13 +286,13 @@
 		}
 
 		public static function Insertar_Diagnostico($idorden,$diagnostico,$estado_aparato,$repuestos,$mano_obra,$fecha_alta,$fecha_retiro,
-		$ubicacion,$parcial_pagar)
+		$ubicacion,$parcial_pagar, $HoraObra)
 		{
 			$dbconec = Conexion::Conectar();
 			try
 			{
 				$query = "CALL sp_insert_diagnostico(:idorden,:diagnostico,:estado_aparato,:repuestos,:mano_obra,:fecha_alta,:fecha_retiro,
-				:ubicacion,:parcial_pagar)";
+				:ubicacion,:parcial_pagar, :HoraObra)";
 				$stmt = $dbconec->prepare($query);
 				$stmt->bindParam(":idorden",$idorden);
 				$stmt->bindParam(":diagnostico",$diagnostico);
@@ -303,6 +303,8 @@
 				$stmt->bindParam(":fecha_retiro",$fecha_retiro);
 				$stmt->bindParam(":ubicacion",$ubicacion);
 				$stmt->bindParam(":parcial_pagar",$parcial_pagar);
+				$stmt->bindParam(":HoraObra",$HoraObra);
+				
 
 				if($stmt->execute())
 				{
