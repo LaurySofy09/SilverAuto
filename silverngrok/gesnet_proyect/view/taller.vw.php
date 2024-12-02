@@ -258,6 +258,7 @@
                                                    '<?php print($column["idcliente"]); ?>',
                                                    '<?php print($column["Placa"]); ?>',
                                                    '<?php print($column["AnioAuto"]); ?>',
+												   '<?php print($column["modelo"]); ?>',
                                                    '<?php print($column["idmarca"]); ?>',
                                                    '<?php print($column["serie"]); ?>',
                                                    '<?php print($column["idtecnico"]); ?>',
