@@ -85,24 +85,28 @@ $(document).ready(function () {
 });
 
 
-function EliminarDetalleOrdenClick(){
+function EliminarDetalleOrdenClick(button){
 swal({
 			title: "¿Desea eliminar este detalle?",
 			text: "Será eliminado permanentemente",
 			showCancelButton: true,
 			cancelButtonColor: "#EF5350",
 			confirmButtonColor: "#43ABDB",
-			confirmButtonText: "Si, Imprimir",
+			confirmButtonText: "Si",
 			cancelButtonText: "No",
 			closeOnConfirm: false,
 			closeOnCancel: false,
 		}, function(isConfirm) {
 			if (isConfirm) {
 				var total = 0;
-				var productId = parseInt($(this).data('id'));
-				var price = parseFloat($(this).data('price'));
-				var quantity = parseInt($(this).data('quantity'));
-				var iddetalle= parseInt($(this).data('iddetalle'));
+				// var productId = parseInt($(this).data('id'));
+				// var price = parseFloat($(this).data('price'));
+				// var quantity = parseInt($(this).data('quantity'));
+				// var iddetalle= parseInt($(this).data('iddetalle'));
+				var productId = parseInt($(button).data('id'));
+				var price = parseFloat($(button).data('price'));
+				var quantity = parseInt($(button).data('quantity'));
+				var iddetalle= parseInt($(button).data('iddetalle'));
 				var txtRepues = parseFloat($('#txtRepues').val());
 
 				total = txtRepues - (price * quantity);
@@ -110,12 +114,13 @@ swal({
 				 $('#txtRepues').autoNumeric('set', parseFloat(total).toFixed(2));
 				 $('#txtRepues').change();
 
-				$(this).closest('li').remove();
+				$(button).closest('li').remove();
 				updateStock();
 				EliminarDetalleOrden(iddetalle, productId, quantity);
-			} else {
-				
+			}else {
+				swal.close();  // Cierra el Swal cuando se presiona "No"
 			}
+ 
 		});	
 
 }
@@ -130,6 +135,7 @@ function EliminarDetalleOrden(idDetalle, idproducto ,Cantidad)
 		    data: 'proceso=deleteDetalle' + '&iddetalle=' + idDetalle + '&idproducto=' + idproducto + '&cantidad=' + Cantidad,
 		    dataType: 'json',
 			success: function(data){
+				swal.close();
 				console.log(data);				
 			},
 			error: function(xhr, status, error) {
@@ -612,6 +618,7 @@ var parametro = $("#txtProceso_I").val();
 
    var repuestos = $("#txtRepues").val();
    var mano_obra = $("#txtManoObra").val();
+   var horaObra =  parseInt($('#txtHoraObra-D').val()) || 1;
 
    var costo_reparacion = 0;
    if(repuestos =='' && mano_obra==''){
@@ -621,9 +628,9 @@ var parametro = $("#txtProceso_I").val();
    } else if (repuestos !='' && mano_obra ==''){
      costo_reparacion = parseFloat(repuestos);
    } else if (repuestos == '' && mano_obra !=''){
-     costo_reparacion = parseFloat(mano_obra);
+     costo_reparacion = parseFloat(mano_obra) * horaObra;
    } else if (repuestos != '' && mano_obra!=''){
-     costo_reparacion = parseFloat(repuestos) + parseFloat(mano_obra);
+     costo_reparacion = parseFloat(repuestos) + (parseFloat(mano_obra) * horaObra);
    }
 
    var deposito_revision = $("#txtDRevi").val();
@@ -642,7 +649,7 @@ var parametro = $("#txtProceso_I").val();
 
    var repuestos = $("#txtRepues-I").val();
    var mano_obra = $("#txtManoObra-I").val();
-
+   var horaObra =  parseInt($('#txtHoraObra-D').val()) || 1;
    var costo_reparacion = 0;
    if(repuestos =='' && mano_obra==''){
      repuestos = 0.00;
@@ -651,9 +658,9 @@ var parametro = $("#txtProceso_I").val();
    } else if (repuestos !='' && mano_obra ==''){
      costo_reparacion = parseFloat(repuestos);
    } else if (repuestos == '' && mano_obra !=''){
-     costo_reparacion = parseFloat(mano_obra);
+     costo_reparacion = parseFloat(mano_obra) * horaObra;
    } else if (repuestos != '' && mano_obra!=''){
-     costo_reparacion = parseFloat(repuestos) + parseFloat(mano_obra);
+     costo_reparacion = parseFloat(repuestos) + (parseFloat(mano_obra) * horaObra);
    }
 
    var deposito_revision = $("#txtDRevi").val();
@@ -673,7 +680,8 @@ var parametro = $("#txtProceso_I").val();
 
    var repuestos = $("#txtRepues").val();
    var mano_obra = $("#txtManoObra").val();
-
+   var horaObra =  parseInt($('#txtHoraObra-D').val()) || 1;
+   
    var costo_reparacion = 0;
    if(repuestos =='' && mano_obra==''){
      repuestos = 0.00;
@@ -682,9 +690,9 @@ var parametro = $("#txtProceso_I").val();
    } else if (repuestos !='' && mano_obra ==''){
      costo_reparacion = parseFloat(repuestos);
    } else if (repuestos == '' && mano_obra !=''){
-     costo_reparacion = parseFloat(mano_obra);
+     costo_reparacion = parseFloat(mano_obra) * horaObra;
    } else if (repuestos != '' && mano_obra!=''){
-     costo_reparacion = parseFloat(repuestos) + parseFloat(mano_obra);
+     costo_reparacion = parseFloat(repuestos) + (parseFloat(mano_obra) * horaObra);
    }
 
    var deposito_revision = $("#txtDRevi-D").val();
@@ -878,35 +886,46 @@ idorden,
              $('#txtID_I').val('');
              $('#txtProceso_I').val('');
 
-             $('#txtFechaA').val(mano_obra);  // fecha_alta
-             $('#txtFechaR').val(fecha_alta); // fecha_retiro
-             $('#txtDiagnostico').val(deposito_reparacion); // diagnostico
-             $('#txtEstado').val(diagnostico); // estado_aparato
+             $('#txtFechaA').val(fecha_alta);  //  mano_obra
+             $('#txtFechaR').val(fecha_retiro); // fecha_alta
+             $('#txtDiagnostico').val(diagnostico); // deposito_reparacion
+             $('#txtEstado').val(estado_aparato); // diagnostico
              $('#txtAnio').val(AnioAuto); // AnioAuto
              $('#txtPlaca').val(Placa); // Placa
-             $('#txtEstado').val(diagnostico); // estado_aparato
-             $('#txtRepues').val(estado_aparato); // repuestos
-             $('#txtManoObra').val(repuestos); //mano_obra
-		     $('#txtUbicacion').val(fecha_retiro);
-             
-         var valorRepuesto = montoRepuesto || "0";
-         var RepuestoNum = parseFloat((Number((valorRepuesto.replace(/[^0-9.-]+/g, ""))).toFixed(2)));
-         var valorManoObra= ManoObra || "0";
-         var ManoObraNum = parseFloat((Number((valorManoObra.replace(/[^0-9.-]+/g, ""))).toFixed(2)));
-         var Horas = parseInt(horaObra) || 1;
+             $('#txtEstado').val(estado_aparato); // diagnostico
+             $('#txtRepues').val(repuestos); // estado_aparato
+             $('#txtManoObra').val(mano_obra); //repuestos
+		     $('#txtUbicacion').val(ubicacion); // fecha_retiro
+		     $('#txtHoraObra-D').val(horaObra);
+         // var valorRepuesto = montoRepuesto || "0";
+         // var RepuestoNum = parseFloat((Number((valorRepuesto.replace(/[^0-9.-]+/g, ""))).toFixed(2)));
+         // var valorManoObra= ManoObra || "0";
+         // var ManoObraNum = parseFloat((Number((valorManoObra.replace(/[^0-9.-]+/g, ""))).toFixed(2)));
+         // var Horas = parseInt(horaObra) || 1;
 
-         var costo = RepuestoNum + (ManoObraNum * Horas);
+         // var costo = RepuestoNum + (ManoObraNum * Horas);
          
-         $("#txtRepues-I").autoNumeric();
-         $('#txtRepues-I').autoNumeric('set', parseFloat(RepuestoNum).toFixed(2));
+         // $("#txtRepues-I").autoNumeric();
+         // $('#txtRepues-I').autoNumeric('set', parseFloat(RepuestoNum).toFixed(2));
+		 
+		  // $("#txtRepues").autoNumeric();
+         // $('#txtRepues').autoNumeric('set', parseFloat(RepuestoNum).toFixed(2));
          
-         $("#txtManoObra-I").autoNumeric();
-         $('#txtManoObra-I').autoNumeric('set', parseFloat(ManoObraNum).toFixed(2));
+         // $("#txtManoObra-I").autoNumeric();
+         // $('#txtManoObra-I').autoNumeric('set', parseFloat(ManoObraNum).toFixed(2));
          
-         $('#txtHoraObra-I').val(horaObra)
+		 // $("#txtManoObra").autoNumeric();
+         // $('#txtManoObra').autoNumeric('set', parseFloat(ManoObraNum).toFixed(2));	 
+		 
+         // $('#txtHoraObra-I').val(horaObra)
+		 // $('#txtHoraObra-D').val(horaObra)
          
-         $("#txtCosto-I").autoNumeric();
-         $('#txtCosto-I').autoNumeric('set', parseFloat(costo).toFixed(2));
+         // $("#txtCosto-I").autoNumeric();
+         // $('#txtCosto-I').autoNumeric('set', parseFloat(costo).toFixed(2));
+		 
+		 // $("#txtCosto").autoNumeric();
+         // $('#txtCosto').autoNumeric('set', parseFloat(costo).toFixed(2));
+		 
         var urlprocess = 'web/ajax/ajxtaller.php';
 		console.log(idorden);
 		//aqui va la consulta ajax 
@@ -922,7 +941,8 @@ idorden,
 				console.log(data);
 				if (Array.isArray(data)) {
 					data.forEach(function(item) {
-					$('.cart').append(`<li data-id="${item.idproducto}" data-price="${item.precio}" data-quantity="${item.cantidad}"> ${item.nombre_producto} - ${item.cantidad} x $${item.precio} cada uno. <button type="button" onclick="EliminarDetalleOrdenClick()" class="remove-from-cart btn btn-danger" data-iddetalle="${item.idDetalle}" data-quantity="${item.cantidad}" data-price=${item.precio} data-id="${item.idproducto}">Eliminar</button></li></br>`);
+					//$('.cart').append(`<li data-id="${item.idproducto}" data-price="${item.precio}" data-quantity="${item.cantidad}"> ${item.nombre_producto} - ${item.cantidad} x $${item.precio} cada uno. <button type="button" onclick="EliminarDetalleOrdenClick()" class="remove-from-cart btn btn-danger" data-iddetalle="${item.idDetalle}" data-quantity="${item.cantidad}" data-price=${item.precio} data-id="${item.idproducto}">Eliminar</button></li></br>`);
+					 $('.cart').append(`<li data-id="${item.idproducto}" data-price="${item.precio}" data-quantity="${item.cantidad}"> ${item.nombre_producto} - ${item.cantidad} x $${item.precio} cada uno. <button type="button" onclick="EliminarDetalleOrdenClick(this)" class="remove-from-cart btn btn-danger" data-iddetalle="${item.idDetalle}" data-quantity="${item.cantidad}" data-price="${item.precio}" data-id="${item.idproducto}">Eliminar</button></li></br>`);
 					});
 				}
 				else{
@@ -1358,11 +1378,13 @@ function enviar_diagnostico(){
   var estado  =$("#txtEstado").val();
   var repuestos  =$("#txtRepues").val();
   var mano_obra  =$("#txtManoObra").val();
-  var parcial  =$("#txtParcial-D").val();
+  var txtHoraObra =$("#txtHoraObra-D").val();
+  //var parcial  =$("#txtParcial-D").val(); txtCosto
+  var parcial  =$("#txtCosto").val();
   var ubicacion  =$("#txtUbicacion").val();
 
   var dataString='proceso='+proceso+'&id='+id+'&diagnostico='+diagnostico+'&estado='+estado+'&repuestos='+repuestos;
-  dataString+='&mano_obra='+mano_obra+'&parcial='+parcial+'&ubicacion='+ubicacion+'&fecha_alta='+fecha_alta+'&fecha_retiro='+fecha_retiro;
+  dataString+='&mano_obra='+mano_obra+ '&HoraObra=' + txtHoraObra + '&parcial='+parcial+'&ubicacion='+ubicacion+'&fecha_alta='+fecha_alta+'&fecha_retiro='+fecha_retiro;
 
   $.ajax({
      type:'POST',
@@ -1464,8 +1486,8 @@ function enviar_diagnostico(){
             });
         }
 
-     },error: function() {
-
+     },error: function(data) {
+        console.log(data);
          swal({
             title: "Lo sentimos...",
             text: "Algo sucedio mal!",
