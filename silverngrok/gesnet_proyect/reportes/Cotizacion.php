@@ -14,9 +14,9 @@
 
     $objCotizacion =  new Cotizacion();
 
-    //$listado = $objCotizacion->Listar_Detalle($idcotizacion);
+    $listado = $objCotizacion->Listar_Detalle($idcotizacion);
 
-    $objetos = $objCotizacion->Listar_Objetos($idcotizacion);
+    //$objetos = $objCotizacion->Listar_Objetos($idcotizacion);
 
     $param_moneda = $objCotizacion->Ver_Moneda_Reporte();
     foreach ($param_moneda as $row => $column) {
@@ -29,13 +29,27 @@
       foreach ($info as $row => $column) {
         $numero_cotizacion = $column["numero_cotizacion"];
         $fecha_cotizacion = $column["fecha_cotizacion"];
-        $fecha_cotizacion = DateTime::createFromFormat('d-m-Y H:i:s', $fecha_cotizacion)->format('d/m/Y H:i:s');
+		
+		if (!empty($fecha_cotizacion)) {
+			$fecha_objeto = DateTime::createFromFormat('Y-m-d H:i:s', $fecha_cotizacion);
+			if ($fecha_objeto !== false) {
+				$fecha_cotizacion = $fecha_objeto->format('d/m/Y H:i:s');
+			} else {
+				echo "Error: El formato de fecha no es válido para '$fecha_cotizacion'.";
+			}
+		} else {
+			echo "Error: La fecha está vacía o no se proporcionó.";
+		}
+
+
+		
+       // $fecha_cotizacion = DateTime::createFromFormat('d-m-Y H:i:s', $fecha_cotizacion)->format('d/m/Y H:i:s');
         $tipo_pago = $column["tipo_pago"];
         $a_nombre = $column["a_nombre"];
         $entrega = $column["entrega"];
         $sumas = $column["sumas"];
         $iva = $column["iva"];
-        $subtota = $column["subtotal"];
+        $subtotal = $column["sumas"];
         $total_exento = $column["total_exento"];
         $retenido = $column["retenido"];
         $total_descuento = $column["total_descuento"];
@@ -138,7 +152,8 @@
 
      // Añade los datos
       $pdf->SetFont('Arial', '', 7);
-      foreach ($objetos as $row) {
+      //foreach ($objetos as $row) {
+		  foreach ($listado as $row) {
     $pdf->Cell(30, 6, round($row['cantidad']), 1, 0, 'L', true);
     $pdf->Cell(80, 6, $row['nombre_producto'], 1, 0, 'L', true);
     $pdf->Cell(40, 6, $row['precio_unitario'], 1, 0, 'L', true);
