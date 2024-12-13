@@ -55,12 +55,12 @@
 											<tr class="bg-teal">
 												<th></th>
 												<th class="text-center text-bold">Producto</th>
-												<th class="text-center text-bold">Dispo.</th>
 												<th class="text-center text-bold">Cant.</th>
 												<th class="text-center text-bold">Precio</th>
 												<th class="text-center text-bold">Exento</th>
 												<th class="text-center text-bold">Descuento</th>
 												<th class="text-center text-bold">Importe</th>
+												<th class="text-center text-bold">Vence</th>
 												<th class="text-center text-bold">Quitar</th>
 											</tr>
 										</thead>
