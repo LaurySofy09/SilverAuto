@@ -73,7 +73,7 @@
       }
     }
 
-
+ 
     $objParametro =  new Parametro();
     $filas = $objParametro->Listar_Parametros();
 
@@ -175,11 +175,11 @@
     $pdf->Text(130, $get_Y + 90, 'SUBTOTAL');
     $pdf->Text(170, $get_Y + 90, 'B/.'.$subtotal);
     $pdf->Text(130, $get_Y + 95, 'EXENTO');
-    $pdf->Text(170, $get_Y + 95, 'B/.'.$exento);
+    $pdf->Text(170, $get_Y + 95, 'B/.'.$total_exento);
     $pdf->Text(130, $get_Y + 100, 'ITMBS(7%)');
     $pdf->Text(170, $get_Y + 100, 'B/.'.$iva);
     $pdf->Text(130, $get_Y + 105, 'DESCUENTO');
-    $pdf->Text(170, $get_Y + 105, 'B/.'.'- '.$descuento);
+    $pdf->Text(170, $get_Y + 105, 'B/.'.'- '.$total_descuento);
     $pdf->SetFont('Arial', 'B', 8.5);
     $pdf->Text(130, $get_Y + 110, 'TOTAL A PAGAR');
     $pdf->SetFont('Arial', 'B', 8.5);

@@ -810,6 +810,9 @@ function enviar_data(){
 
     $("#tbldetalle tbody tr").each(function (index)
         {
+            var fila = $(this);
+            var precioSeleccionado = fila.find('select[class="ddl-precio_venta"]').val(); 
+            
             var campo1, campo2, campo3, campo4, campo5, campo6, campo7, campo8;
             $(this).children("td").each(function (index2)
             {
@@ -818,35 +821,33 @@ function enviar_data(){
 
                     case 0:  campo0 = $(this).text();
                              break;
-
                     case 1:  campo1 = $(this).text();
                              break;
-
-                    case 2:  campo2 = $(this).text();
-                             disponible = campo2;
+                    case 2:  campo2 = $(this).find("#tblcant").val();
+                             cantidad = parseFloat(campo2);
                              break;
 
-                    case 3:  campo3 = $(this).find("#tblcant").val();
-                             /*cantidad = parseFloat(campo3);*/
-                              cantidad = (campo3);
+                    case 3:  campo3 = $(this).text();
+                             precio_unitario = parseFloat(campo3);
+                             precio_unitario = precioSeleccionado;
                              break;
 
                     case 4:  campo4 = $(this).text();
-                             precio_unitario  = parseFloat(campo4);
+                             exentos = parseFloat(campo4);
                              break;
 
-                    case 5: campo5 = $(this).text();
-                            exentos = parseFloat(campo5);
+                    case 5:  campo5 = $(this).find("#tbldesc").val();
+                             descuento = parseFloat(campo5);
+                             break;
+
+                    case 6:  campo6 = campo2 * precioSeleccionado;
+                             importe = parseFloat(campo6);
+                             $(this).text(campo6.toFixed(2));
+                             break;
+
+                    case 7: campo7 = $(this).find("#cbFecha option:selected").text();
+                            fecha_vence = campo7;
                             break;
-
-                    case 6:  campo6 = $(this).find("#tbldesc").val();
-                             descuento = parseFloat(campo6);
-                             break;
-
-                    case 7:  campo7 = campo3 * campo4;
-                             importe = parseFloat(campo7);
-                             $(this).text(campo7.toFixed(2));
-                             break;
 
                 }
               //  $(this).css("background-color", "#ECF8E0");
@@ -859,13 +860,13 @@ function enviar_data(){
 
      })
 
-
+ 
 
         var dataString='&stringdatos='+StringDatos+'&cuantos='+i;
         dataString+='&tipo_entrega='+tipo_entrega+'&idcliente='+idcliente+'&sumas='+sumas+'&iva='+iva+'&a_nombre='+a_nombre;
         dataString+='&retenido='+retenido+'&exento='+exento+'&descuento='+descuentos+'&total='+total+'&pagado='+pagado+'&proceso='+proceso;
 
-        //console.log(dataString);
+        console.log(dataString);
 
       if(total > 0.00){
 
@@ -887,7 +888,7 @@ function enviar_data(){
 				
 				// SweetAlert para el rol de cajero
                             swal({
-                                title: "Venta enviada a caja",
+                                title: "Cotizacion generada",
                                 text: "Su cliente lo puede solicitar",
                                 imageUrl: "web/assets/images/receipt.png",
                                 showCancelButton: true,
