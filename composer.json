@@ -1,0 +1,15 @@
+{
+    "name": "ladominguez/silver-auto-main",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ladominguez\\SilverAutoMain\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Media Luna"
+        }
+    ],
+    "require": {}
+}
