@@ -997,6 +997,7 @@ function actualizarTablaDespuesDeImportarCSV() {
         if (xhr.status === 200)  {
             // Actualizar el contenido de la tabla en la página actual
             document.getElementById('DataTables_Table_0').innerHTML = xhr.responseText;
+	    location.reload();
         } else {
              alert('Error al actualizar.');
         }
@@ -1016,6 +1017,7 @@ document.getElementById('archivo_excel').addEventListener('change', function() {
             try {
                 var response = JSON.parse(xhr.responseText);
                 handleServerResponse(response);
+		location.reload();
             } catch (e) {
                 console.error('Error al parsear JSON:', e);
                 console.error('Respuesta del servidor:', xhr.responseText);
