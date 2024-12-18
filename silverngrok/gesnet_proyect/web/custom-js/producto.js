@@ -354,7 +354,7 @@ $(document).on('click', '#print_vigentes', function(e){
     $("#chkExento").change(function() {
         if(this.checked) {
            $("#chkExento").val(true);
-           document.getElementById("lblchk-e").innerHTML = 'SIN ITBMS';
+           document.getElementById("lblchk-e").innerHTML = 'EXENTO';
         } else {
           $("#chkExento").val(false);
           document.getElementById("lblchk-e").innerHTML = 'CON ITBMS';
