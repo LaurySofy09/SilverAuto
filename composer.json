@@ -1,0 +1,11 @@
+{
+    "name": "silverauto/main",
+    "description": "Sistema de gestión para SilverAuto.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "TOLA"
+        }
+    ],
+    "require": {}
+}
