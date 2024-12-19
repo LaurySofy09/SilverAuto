@@ -2,10 +2,13 @@
     "name": "silverauto/main",
     "description": "Sistema de gestión para SilverAuto.",
     "type": "project",
+    "license": "proprietary",
     "authors": [
         {
-            "name": "TOLA"
+            "name": "TOLA",
+            "email": "tola@example.com"
         }
     ],
     "require": {}
 }
+
